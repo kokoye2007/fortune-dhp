@@ -1,0 +1,27 @@
+Source: fortune-dhp
+Section: games
+Priority: optional
+Maintainer: kokoye2007 <kokoye2007@gmail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.5.1
+Homepage: https://suttacentral.net
+Vcs-Browser: https://github.com/kokoye2007/fortune-dhp
+Vcs-Git: https://github.com/kokoye2007/fortune-dhp.git
+Rules-Requires-Root: no
+
+Package: fortune-dhp
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, fortune-mod
+Recommends: zenity
+Description: Dhammapada Fortune 
+ It's alternative of display-dhammapada. 
+ Dhammapada is Collection of Buddhist sayings.
+ .
+ Dhammapada Fortune is working with fortune-mod
+ Dhammapada Data from SuttaCentral.net. 
+ .
+ 19 Languages and 25 Translations cookies.
+ .
+ Catalan Czech German English Spanish French Hebrew 
+ Hungarian Italian Japanese Marathi Burmese Dutch 
+ Norwegian Polish Portuguese Singhalese Slovenian Tamil.

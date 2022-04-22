@@ -1,0 +1,59 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" (C) Copyright 2022 kokoye2007 <kokoye2007@gmail.com>,
+.TH FORTUNE-DPH 6 "April 20, 2022"
+
+.SH NAME
+fortune-dhp \- Dhammapada multi language files for fortune
+
+.SH SYNOPSIS
+.B fortune-dhp
+
+.SH DESCRIPTION
+\fIfortune-dhp\fR is a simple shell script that invokes \fIfortune\fR with dhammapada
+multiple language files and language set.
+
+.SS Options
+The options are as follows:
+
+.TP
+.BI "\-l, \-\-language "  LANGUAGE
+Choose from available dhammapada lists of language code. eg. en 
+.TP
+
+.B \-h \-\-help 
+option for more information. 
+.TP
+
+.BI "\-r, \-\-regex "  pattern | number
+Print out all dhammapada fortunes which match the basic regular expression
+.IR pattern .
+.BR
+The syntax of these expressions depends on how your system defines
+.BR re_comp "(3) or " regcomp (3),
+but it should nevertheless be similar to the syntax used in
+.BR grep (1).
+.sp
+.TP
+
+
+.B \-z, \-\-zenity
+Show with GUI - zenity.
+.TP
+
+.SH DATAFILE
+.TP
+.I /usr/share/games/fortunes/*-dhp
+Dhammapada fortune in many languages, both same language in difference author.
+
+.SH SEE ALSO
+.BR fortune "(6), " re_comp "(3), " regcomp "(3), " strfile "(1), "
+.BR unstr (1)
+
+
+
+.SH AUTHOR
+fortune-dhp was data from SuttaCentral
+.IP
+Copyright SuttaCentral - sujato <sujato@gmail.com>
+.PP
+This manual page was written by kokoye2007 <kokoye2007@gmail.com> for Debian, and may be used by others.
