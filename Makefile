@@ -1,3 +1,4 @@
+DESTDIR=
 FORTUNES=/usr/share/games/fortunes
 GAMES=/usr/games
 ICONS=/usr/share/icons
@@ -14,10 +15,10 @@ clean:
 	find . -type f -name '*.dat' -delete
 
 install: dhp
-	mkdir -p "$(FORTUNES)"
-	mkdir -p "$(GAMES)"
-	install -m0755  fortune-dhp "$(GAMES)"
-	install -m0644  "$(TEXTS)" "$(FORTUNES)"
-	install -m0644  "$(DATA)"  "$(FORTUNES)"
-	install -m0644  "${ICON}" "${ICONS}"
+	mkdir -p "$(DESTDIR)$(FORTUNES)"
+	mkdir -p "$(DESTDIR)$(GAMES)"
+	install -m0755  fortune-dhp "$(DESTDIR)$(GAMES)"
+	install -m0644  "$(TEXTS)" "$(DESTDIR)$(FORTUNES)"
+	install -m0644  "$(DATA)"  "$(DESTDIR)$(FORTUNES)"
+	install -m0644  "${ICON}" "$(DESTDIR)${ICONS}"
 .PHONY: dhp install clean distclean stat all
