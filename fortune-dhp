@@ -7,27 +7,39 @@ BLUE=$(tput setaf 4)
 RESET=$(tput sgr0)
 BOLD=$(tput bold)
 
-FORTUNE="$(which fortune)"
+FORTUNE="$(which fortune)" || true
+ZENITY="$(which zenity)" || true
+KDIALOG="$(which kdialog)" || true
+NOTIFYSEND="$(which notify-send)" || true
+
 [ -x "$FORTUNE" ] || ( echo "E: Please install package 'fortune-mod'."; false )
 
-data_dir=/usr/share/games/fortunes/
+DHP_ICON="dhp-lotus"
+DHP_TITLE="Dhammapada"
 
-dhp_list=$(find $data_dir -type f  -name "*-dhp" | cut -d'/' -f6 | cut -f1 -d- | sort)
-DDHPD=$(find $data_dir -type f  -name "*-dhp" | cut -d'/' -f6 | sort)
+FORTUNE_DIR=/usr/share/games/fortunes/dhp
+
+DHP_LIST=$(find $FORTUNE_DIR -type f  -name "*-dhp" | cut -d'/' -f7 | cut -f1 -d- | sort)
+
+# General Dhammapada File Purpose
+# DDHPD=$(find $FORTUNE_DIR -type f  -name "*-dhp")
 
 dhp_l10n(){
 	cat <<EOF
 
-${BOLD} LANGUAGE ${RESET}
+${BOLD} LANGUAGE ${GREEN} CC ${BLUE} CC_AUTHOR ${RESET}
 
-  ${GREEN}my${RESET}    Burmese
+
   ${GREEN}ca${RESET}    Catalan         
-        ${BLUE}ca_jambudipa | ca_durall${RESET}
+        ${BLUE}ca_jambudipa 
+	ca_durall${RESET}
   ${GREEN}cs${RESET}    Czech
   ${GREEN}nl${RESET}    Dutch
-        ${BLUE}nl_dubois | nl_loosbroek ${RESET}
+        ${BLUE}nl_dubois 
+	nl_loosbroek ${RESET}
   ${GREEN}en${RESET}    English 
-        ${BLUE}en_anandajoti | en_buddharakkhita
+        ${BLUE}en_anandajoti  
+        en_buddharakkhita
         en_feldmeier${RESET}
   ${GREEN}fr${RESET}    French
   ${GREEN}de${RESET}    German
@@ -36,10 +48,12 @@ ${BOLD} LANGUAGE ${RESET}
   ${GREEN}it${RESET}    Italian
   ${GREEN}ja${RESET}    Japanese
   ${GREEN}mr${RESET}    Marathi
+  ${GREEN}my${RESET}    Myanmar
   ${GREEN}no${RESET}    Norwegian
   ${GREEN}pl${RESET}    Polish
   ${GREEN}pt${RESET}    Portuguese
-        ${BLUE}pl_becker | pt_beisert
+        ${BLUE}pl_becker 
+	pt_beisert
         pt_guimaraes ${RESET}
   ${GREEN}si${RESET}    Singhalese
   ${GREEN}sl${RESET}    Slovenian
@@ -54,15 +68,23 @@ exit
 usage(){
 cat <<EOF
 
-Usage:	${BOLD}$(basename "${BASH_SOURCE[0]}")${RESET} [-h] [-c ${GREEN}en|ca|it${RESET}]  
-	[-r ${GREEN}search-content | ID ${RESET}] [-z]
+Usage:	${BOLD}$(basename "${BASH_SOURCE[0]}")${RESET} [-h] [ -l ${GREEN} CC | CC_AUTHOR ${RESET} ]  
+	[ -r ${GREEN}search-content | ID ${RESET}] [ -b ${GREEN} z | n | k | p |a ${RESET}]
 
 ${RED}##################################################${RESET}
 
--l, --language		Use language code XX | en 
--h, --help		Print this help and exit
+-h, --help		Print this Help Infomation.
+-l, --language		Use language code 
+			${GREEN}CC | CC_AUTHOR ${RESET}
 -r, --regex		Search pattern and number
--z, --zenity		GUI with Zenity
+
+-b, --box		Use Gui
+${GREEN}       z ${RESET}	 - with Zenity
+${GREEN}       n ${RESET}	 - with Notify Popup
+${GREEN}       k ${RESET}	 - with Kdialog
+${GREEN}       p ${RESET}	 - with Kdialog Popup
+${GREEN}       a ${RESET}	 - with Auto Detect
+-a               - same with  ${GREEN} -b a ${RESET}
 
 ${RED}##################################################${RESET}
 
@@ -70,82 +92,129 @@ EOF
 dhp_l10n
 }
 
+
 # Main 
 main_menu(){
 
 	DHPD=''
 	dhp_regex=0
 	dhp_language=0
-	dhp_zenity=0
+	dhp_box=0
 	dhp_l=''
 
-	while :; do
-		case "${1-}" in
+OPTS=$(getopt -o ahb:r:l: -l auto,help,box:,regex:,language: -- "$@")
+
+eval set -- "$OPTS"
+    [ $# -eq 0 ] && echo "Unknown options or parameters" && usage
+
+while [ $# -gt 0 ]
+do
+    case $1 in
                 -h | --help) usage ;;
-		-z | --zenity)
-			dhp_zenity=1
-			;;
+                -a | --auto)
+		       dhp_box=1
+	       	       dhp_ui="a"
+		       ;;
+		-b | --box) 
+			dhp_box=1 
+			dhp_ui="$2"
+                        shift
+                        ;;
 		-r | --regex) 
 			dhp_regex=1 
-			dhp_r="${2-}"
+			dhp_r="$2"
                         shift
                         ;;
 		-l | --language)
 			dhp_language=1
-			dhp_l="${2-}"
+			dhp_l="$2"
                         shift
                         ;;
-                -?*) 
-			echo "Unknown option: $1" 
-			exit ;;
+		:)
+            		echo "Error: option ${OPTARG} requires an argument"
+            		;;
+        	?)
+            		echo "Invalid option: ${OPTARG}"
+            		;;
                 *) break ;;
                 esac
-                shift
-        done
+	shift 
+
+done
 
 # Regex to Fortune
 if [ ${dhp_regex} -ne 0 ]; then
 	DHP_SEARCH="-m $dhp_r"
 fi
 
-# Check Language Input
-if [ ${dhp_language} -ne 0 ]; then
-	if  echo "${dhp_list[*]}" | grep -q "$dhp_l" ; then
-		DHPD=$(find $data_dir -type f  -name "${dhp_l}*-dhp" | cut -d'/' -f6 | sort)
-		[[ -z  $DHPD ]] && usage
-	else
-		dhp_l10n
-	fi
-else
-
-# Check System LANG
-if [ -n "$LC_ALL" ]; then
-	LANG="$LC_ALL"
+# Check Language Input 
+if [ "${dhp_language}" -eq 0 ]; then
+    dhp_l=$(echo "$LANG" | cut -d_ -f1)
 fi
 
-# Take Language
-LANG_CODE=$(echo "$LANG" | cut -d_ -f1)
-	case "$LANG_CODE" in
-	  cs | de | es | fr | he | hu | it | ja | mr | my | no | si | sl | ta ) 
-	  	DHPD=$LANG_CODE-dhp
-	  	;;
-	  ca | en | nl | pt )
-	  	DHPD="$(find $data_dir -type f  -name "$LANG_CODE*-dhp" | cut -d'/' -f6 | sort)"
-	  	;;
-	  *)
-	  	DHPD="$DDHPD"
-	  	;;
-	  esac
+if echo "${DHP_LIST[*]}" | grep -q "$dhp_l" ; then
+      DHPD="$(find $FORTUNE_DIR -type f  -name "$dhp_l*-dhp" )"
+  else
+    dhp_l10n
+fi
+
+
+# DHP_MESSAGE
+# DHPD=$FORTUNE_DIR/$DHPD
+DHP_MESSAGE="$FORTUNE $DHPD $DHP_SEARCH"
+
+dhp_z(){
+	$ZENITY --info --title="$DHP_TITLE" --no-wrap --icon-name="$DHP_ICON" --text="$($DHP_MESSAGE)" 
+}
+
+dhp_n(){
+	$NOTIFYSEND "$DHP_TITLE" "$($DHP_MESSAGE)" -i "$DHP_ICON"
+}
+
+dhp_k(){
+	$KDIALOG --msgbox "$($DHP_MESSAGE)" --title "$DHP_TITLE" --icon "$DHP_ICON"
+}
+
+dhp_p(){
+	$KDIALOG --passivepopup "$($DHP_MESSAGE)" --title "$DHP_TITLE" --icon "$DHP_ICON"
+}
+
+dhp_a(){
+	( [ -x "$ZENITY" ] && dhp_z ) || ( [ -x "$KDIALOG" ] && dhp_k ) || ( [ -x "$NOTIFYSEND" ] && dhp_n ) || $DHP_MESSAGE
+}
+
+# Box
+if [ ${dhp_box} -ne 0 ]; then
+	case "$dhp_ui" in
+		z) # Zenity 
+			[ -x "$ZENITY" ] || ( echo "E: Please install package 'zenity'."; false )
+			dhp_z
+			;;
+		n) # Notify-send
+			[ -x "$NOTIFYSEND" ] || ( echo "E: Please install package 'notify-send'."; false )
+			dhp_n
+			;;
+		k) # Kdialog 
+			[ -x "$KDIALOG" ] || ( echo "E: Please install package 'kdialog'."; false )
+			dhp_k
+			;;
+		p) # Kdialog Popup
+			[ -x "$KDIALOG" ] || ( echo "E: Please install package 'kdialog'."; false )
+			dhp_p
+			;;
+		a) # Auto Detect
+			dhp_a
+			;;
+		*)
+			echo "Invalid option in GUI selector: $dhp_ui"
+			dhp_a
+			;;
+	esac
+else
+	$DHP_MESSAGE
 fi
 
 return 0
 }
 
 main_menu "$@"
-
-# Zenity or Terminal
-if [ ${dhp_zenity} -ne 0 ]; then
-	zenity --info --title="Dhammapada" --no-wrap --icon-name=dhp-lotus --text="$($FORTUNE $DHPD $DHP_SEARCH)" --timeout=10
-else
-	$FORTUNE $DHPD $DHP_SEARCH
-fi

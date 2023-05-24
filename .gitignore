@@ -9,5 +9,6 @@ debhelper-build-stamp
 *.tar.gz
 *.log
 *.substvars
-/.vagrant
-/*/debian/files
+debian/files
+debian/fortune-dhp/
+dhp/*.dat

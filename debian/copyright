@@ -4,17 +4,17 @@ Upstream-Contact: <preferred name and address to reach the upstream project>
 Source: https://github.com/kokoye2007/fortune-dhp
 
 Files: *
-Copyright: 2022 kokoye2007 <kokoye2007@gmail.com>
-           2022 Bhikkhu Sujato <sujato@gmail.com>
+Copyright: 2023 kokoye2007 <kokoye2007@gmail.com>
+           2023 Bhikkhu Sujato <sujato@gmail.com>
 License: LGPL-3.0+
 
 Files: dhp/*
-Copyright: 2022 kokoye2007 <kokoye2007@gmail.com>
-           2022 Bhikkhu Sujato <sujato@gmail.com>
+Copyright: 2023 kokoye2007 <kokoye2007@gmail.com>
+           2023 Bhikkhu Sujato <sujato@gmail.com>
 License: LGPL-3.0+
 
 Files: debian/*
-Copyright: 2022 kokoye2007 <kokoye2007@gmail.com>
+Copyright: 2023 kokoye2007 <kokoye2007@gmail.com>
 License: LGPL-3.0+
 
 License: LGPL-3.0+

@@ -14,35 +14,43 @@ multiple language files and language set.
 
 .SS Options
 The options are as follows:
-
 .TP
-.BI "\-l, \-\-language "  LANGUAGE
-Choose from available dhammapada lists of language code. eg. en 
+
+.B \-l, \-\-language	[ CC | CC_AUTHOR ]
+Choose from available dhammapada lists of language code. eg. en or en_buddharakkhita
 .TP
 
 .B \-h \-\-help 
 option for more information. 
 .TP
 
-.BI "\-r, \-\-regex "  pattern | number
+.B \-r, \-\-regex	[ pattern | number ]
 Print out all dhammapada fortunes which match the basic regular expression
 .IR pattern .
-.BR
-The syntax of these expressions depends on how your system defines
-.BR re_comp "(3) or " regcomp (3),
-but it should nevertheless be similar to the syntax used in
-.BR grep (1).
+The syntax of these expressions depends on how your system defines 
+.BI re_comp "(3) or "regcomp (3),
+but it should nevertheless be similar to the syntax used in 
+.BI grep (1).
 .sp
 .TP
 
 
-.B \-z, \-\-zenity
-Show with GUI - zenity.
+.B \-b, \-\-box		[ z | n | k | p | a ]
+Show with GUI - 
+ z - zenity
+ n - notify-send
+ k - kdialog
+ p - kdialog popup 
+ a - auto detect
+.TP
+
+.B \-a, \-b a
+Auto detect Desktop Envirement  
 .TP
 
 .SH DATAFILE
 .TP
-.I /usr/share/games/fortunes/*-dhp
+.I /usr/share/games/fortunes/dhp
 Dhammapada fortune in many languages, both same language in difference author.
 
 .SH SEE ALSO
