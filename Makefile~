@@ -55,10 +55,11 @@ deb:
 	debuild -b
 
 git:
+	git add .	
 	git commit -m "${VERSION} upstream"
-  git tag -s "$SOFTTAG" -m "Upstream $VERSION"
-  git tag -v "$SOFTTAG"
-  git push --tags
+	git tag -s "$SOFTTAG" -m "Upstream $VERSION"
+	git tag -v "$SOFTTAG"
+	git push --tags
 
 .PHONY: dhp dpkg deb dput git install clean remove distclean stat all
 
