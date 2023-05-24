@@ -1,4 +1,4 @@
-# Fortune Dhammapada
+# ![](./dhp-lotus.png) Fortune Dhammapada
 
 The alternative to the "display-dhammapada" application is the "Dhammapada Fortune." It is a collection of Buddhist sayings and is available in CLI (Command Line Interface) and GUI (Graphical User Interface) modes. It supports the Gnome and KDE desktop environments.
 
@@ -101,15 +101,24 @@ Usage:	fortune-dhp [-h] [ -l  CC | CC_AUTHOR  ]
 
 
 ## Programming Language List
+
 [ ] C
+
 [ ] Go
+
 [ ] Python
+
 [x] Bash
 
 ## OS
+
 [x] Linux
+
 [ ] Windows
+
 [ ] Mac
+
 [ ] Android
+
 [ ] iOS
 
