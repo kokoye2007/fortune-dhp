@@ -1,11 +1,32 @@
 [Desktop Entry]
+Type=Application
+Version=0.1
 Name=Fortune Dhammapada
 GenericName=Fortune Dhammapda
 Comment=Fortune Dhammapada Quote
 Exec=sh -c 'fortune-dhp -a'
 Icon=dhp-lotus
-Terminal=true
-Type=Application
-StartupNotify=true
-Categories=GNOME;GTK;Game;
-Version=1.0
+Keywords=dhammapada;buddha;quote;
+Terminal=false
+Categories=Utility;Games;
+Actions=Zenity;Notify;Kdialog;KdialogPopup;
+
+[Desktop Action Zenity]
+Name=Dhammapada Zenity
+Exec=sh -c 'fortune-dhp -b z'
+Terminal=false
+
+[Desktop Action Notify]
+Name=Dhammapada Notify 
+Exec=sh -c 'fortune-dhp -b n'
+Terminal=false
+
+[Desktop Action Kdialog]
+Name=Dhammapada Kdialog
+Exec=sh -c 'fortune-dhp -b k'
+Terminal=false
+
+[Desktop Action KdialogPopup]
+Name=Dhammapada Kdialog Popup
+Exec=sh -c 'fortune-dhp -b p'
+Terminal=false
