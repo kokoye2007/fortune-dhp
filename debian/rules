@@ -18,12 +18,8 @@ endif
 
 override_dh_auto_install:
 	PREFIX=`pwd`/debian/$(pkg)/usr \
-	    MANDIR=share/man \
+	    MANDIR=share/man/man6 \
 	    DOCDIR=share/doc/fortune-dhp \
 	    SCRIPTSEARCH=/usr/share/games/fortunes \
 	    FORTUNEDIR=/usr/games \
 	  ./install.sh
-
-# override_dh_installchangelogs:
-#	dh_installchangelogs ChangeLog
-

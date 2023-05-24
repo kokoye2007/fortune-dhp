@@ -12,8 +12,8 @@ Rules-Requires-Root: no
 
 Package: fortune-dhp
 Architecture: all
-Depends: ${misc:Depends}, fortune-mod
-Recommends: zenity, libnotify-bin, kdialog
+Depends: ${shlibs:Depends}, ${misc:Depends}, fortune-mod
+Suggests: zenity, libnotify-bin, kdialog
 Description: Dhammapada Fortune
  The alternative to the "display-dhammapada" application
  is the "Dhammapada Fortune." It is a collection of

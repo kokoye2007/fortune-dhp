@@ -68,10 +68,10 @@ fi
 
 if [ -d "$MANDIR" ] || mkdir -p "$MANDIR"
 then
-  gzip -c "$FORTUNEDHP".6 > "$FORTUNEDHP".6x.gz
-  install -m0644 "$FORTUNEDHP".6x.gz "$MANDIR"
+  gzip -c "$FORTUNEDHP".6 > "$FORTUNEDHP".6.gz
+  install -m0644 "$FORTUNEDHP".6.gz "$MANDIR"
 else
-  echo "Unable to create $MAN."
+  echo "Unable to create $MANDIR."
   exit 3
 fi
 
