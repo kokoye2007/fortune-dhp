@@ -95,9 +95,9 @@ Usage:	fortune-dhp [-h] [ -l  CC | CC_AUTHOR  ]
 ## Credit and Licence 
 
 - fortune
-- suttacentral.net 
+- https://suttacentral.net 
 - https://github.com/suttacentral
-- [AUTHOR](./AUTHOR)
+- [AUTHORS](./AUTHORS)
 
 
 ## Programming Language List

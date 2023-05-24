@@ -7,20 +7,21 @@ Standards-Version: 4.6.2
 Homepage: https://github.com/kokoye2007/fortune-dhp
 Vcs-Browser: https://github.com/kokoye2007/fortune-dhp
 Vcs-Git: https://github.com/kokoye2007/fortune-dhp.git
+Build-Depends-Indep: fortune-mod
 Rules-Requires-Root: no
 
 Package: fortune-dhp
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, fortune-mod
+Architecture: all
+Depends: ${misc:Depends}, fortune-mod
 Recommends: zenity, libnotify-bin, kdialog
 Description: Dhammapada Fortune
- The alternative to the "display-dhammapada" application 
- is the "Dhammapada Fortune." It is a collection of 
+ The alternative to the "display-dhammapada" application
+ is the "Dhammapada Fortune." It is a collection of
  Buddhist sayings and is available in CLI (Command Line Interface)
- and GUI (Graphical User Interface) modes. It supports the Gnome 
+ and GUI (Graphical User Interface) modes. It supports the Gnome
  and KDE desktop environments.
  .
- The "Dhammapada Fortune" application utilizes the "fortune-mod" 
+ The "Dhammapada Fortune" application utilizes the "fortune-mod"
  program to provide its functionality. It retrieves Dhammapada data
  from SuttaCentral.net, a popular online resource for Buddhist texts.
  .
