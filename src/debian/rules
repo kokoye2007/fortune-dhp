@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+#export DH_VERBOSE = 1
+
+pkg=fortune-dhp
+inst_dir=usr/share/games/fortunes
+dest_dir=$(inst_dir)
+
+%:
+	dh $@
+override_dh_auto_build:
+	# do nothing
+
+override_dh_auto_test:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	# do nothing
+endif
+
+
+override_dh_auto_install:
+	PREFIX=`pwd`/debian/$(pkg)/usr \
+	    MANDIR=share/man/man6 \
+	    DOCDIR=share/doc/fortune-dhp \
+	    SCRIPTSEARCH=/usr/share/games/fortunes \
+	    FORTUNEDIR=/usr/games \
+	  ./install.sh
