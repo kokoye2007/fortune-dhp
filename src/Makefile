@@ -55,7 +55,7 @@ deb:
 	debuild -b
 
 git:
-	git add .	
+	cd .. && git add -A	
 	git commit -m "${VERSION} upstream"
 	git tag -s "${SOFTTAG}" -m "Upstream ${VERSION}"
 	git tag -v "${SOFTTAG}"
