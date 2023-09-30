@@ -9,15 +9,18 @@ debhelper-build-stamp
 *.tar.gz
 *.log
 *.substvars
-debian/files
-debian/fortune-dhp/
-dhp/*.dat
+*/debian/files
+*/debian/fortune-dhp/
+*/debian/fortune-dhp.*
+
+
+*/dhp/*.dat
 
 *.debian.tar.xz
 *.asc
 
 .git
-files
+*/files
 *.err
 *.bzr
 
@@ -29,9 +32,9 @@ files
 *.pc
 
 # Ignore directories containing package build artifacts
-debian/tmp
-debian/.debhelper
+*/debian/tmp
+*/debian/.debhelper
 
 # Ignore package source directories
-debian/*/source
+*/debian/*/source
 BUILD_DIR*
