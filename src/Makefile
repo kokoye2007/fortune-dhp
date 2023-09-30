@@ -55,12 +55,12 @@ deb:
 	debuild -b
 
 git:
-	cd .. && git add -A	
+	git add -A	
 	git commit -m "${VERSION} upstream"
 	git tag -s "${SOFTTAG}" -m "Upstream ${VERSION}"
 	git tag -v "${SOFTTAG}"
 	git push --tags
-  #gh release create "$(VERSION)" --title "$(SOFTTAG)"
+	gh release create "${VERSION}" --title "${SOFTTAG}" --note "${PACKAGE}"
 
 # uscan:
 #  uscan --no-download --verbose --debug
