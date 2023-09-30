@@ -60,10 +60,12 @@ git:
 	git tag -s "${SOFTTAG}" -m "Upstream ${VERSION}"
 	git tag -v "${SOFTTAG}"
 	git push --tags
-	gh release create "${VERSION}" --title "${SOFTTAG}" --note "${PACKAGE}"
 
-# uscan:
-#  uscan --no-download --verbose --debug
+git-release:
+	gh release create "${VERSION}" --title "${SOFTTAG}" --notes "${PACKAGE}"
 
-.PHONY: dhp dpkg deb dput git install clean remove distclean stat uscan all
+uscan:
+	uscan --no-download --verbose --debug
+
+.PHONY: dhp dpkg deb dput git git-release install clean remove distclean stat uscan all
 
